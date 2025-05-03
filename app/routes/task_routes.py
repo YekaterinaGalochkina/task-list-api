@@ -13,9 +13,16 @@ def create_task():
 
 @bp.get("")
 def get_all_tasks():
-    tasks = Task.query.all()
-    response = []
+    sort_order = request.args.get("sort")
 
+    if sort_order == "asc":
+        tasks = Task.query.order_by(Task.title.asc()).all()
+    elif sort_order == "desc":
+        tasks = Task.query.order_by(Task.title.desc()).all()
+    else:
+        tasks = Task.query.all()
+
+    response = []
     for task in tasks:
         response.append(task.to_dict())
     

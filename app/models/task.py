@@ -4,8 +4,8 @@ from datetime import datetime
 
 class Task(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    title: Mapped[str] = mapped_column()
-    description: Mapped[str] = mapped_column()
+    title: Mapped[str] = mapped_column(nullable=False)
+    description: Mapped[str] = mapped_column(nullable=False)
     completed_at: Mapped[datetime] = mapped_column(nullable=True)
 
     def to_dict(self):
@@ -13,7 +13,7 @@ class Task(db.Model):
             "id": self.id,
             "title": self.title,
             "description": self.description,
-            "is_complete": False if not self.completed_at else self.completed_at
+            "is_complete": self.completed_at is not None
         }
 
     @classmethod

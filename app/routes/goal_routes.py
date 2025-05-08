@@ -3,7 +3,6 @@ from app.models.goal import Goal
 from .route_helper_methods import create_model_instance_from_dict, validate_model
 from ..db import db
 
-
 bp = Blueprint("goals_bp", __name__, url_prefix = "/goals")
 
 @bp.post("")
@@ -11,7 +10,6 @@ def create_goal():
     request_body = request.get_json()
 
     return create_model_instance_from_dict(Goal, request_body)
-
 
 @bp.get("")
 def get_all_goals():
@@ -41,7 +39,6 @@ def update_goal(goal_id):
     db.session.commit()
 
     return Response(status=204, mimetype="application/json")
-
 
 @bp.delete("/<goal_id>")
 def delete_goal(goal_id):

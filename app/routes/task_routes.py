@@ -26,6 +26,7 @@ def get_all_tasks():
         tasks = Task.query.all()
 
     response = []
+
     for task in tasks:
         response.append(task.to_dict())
     
@@ -85,6 +86,7 @@ def mark_incomplete(task_id):
     task = validate_model(Task, task_id)
     task.completed_at = None
     db.session.commit()
+    
     return Response(status=204, mimetype="application/json")
 
 

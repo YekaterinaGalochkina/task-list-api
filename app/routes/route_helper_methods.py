@@ -1,4 +1,4 @@
-from flask import abort,make_response
+from flask import abort, make_response
 from ..db import db
 
 def validate_model(cls, model_id):

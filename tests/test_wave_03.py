@@ -108,3 +108,13 @@ def test_mark_incomplete_missing_task(client):
     assert response.status_code == 404
     assert "details" in response_body
     assert response_body["details"] == "Task with id 1 not found"
+
+
+def test_repeated_mark_incomplete_has_no_effect(client, one_task):
+    response1 = client.patch("/tasks/1/mark_incomplete")
+    response2 = client.patch("/tasks/1/mark_incomplete")
+
+    assert response1.status_code == 204
+    assert response2.status_code == 204
+    task = db.session.scalar(db.select(Task).where(Task.id == 1))
+    assert task.completed_at is None

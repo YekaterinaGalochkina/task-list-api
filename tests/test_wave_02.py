@@ -55,3 +55,21 @@ def test_get_tasks_sorted_desc(client, three_tasks):
             "is_complete": False,
             "title": "Answer forgotten email 📧"},
     ]
+
+
+def test_get_all_tasks_no_sorting(client, three_tasks):
+    # Act
+    response = client.get("/tasks")
+    response_body = response.get_json()
+
+    # Assert
+    assert response.status_code == 200
+    assert len(response_body) == 3
+
+    returned_titles = {task["title"] for task in response_body}
+    expected_titles = {
+        "Answer forgotten email 📧",
+        "Pay my outstanding tickets 😭",
+        "Water the garden 🌷"
+    }
+    assert returned_titles == expected_titles

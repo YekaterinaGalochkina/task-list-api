@@ -86,3 +86,11 @@ def mark_incomplete(task_id):
     task.completed_at = None
     db.session.commit()
     return Response(status=204, mimetype="application/json")
+
+
+@bp.delete("/delete_all")
+def delete_all_tasks():
+    Task.query.delete()
+    db.session.commit()
+
+    return Response(status=204, mimetype="application/json")

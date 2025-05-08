@@ -184,3 +184,38 @@ def test_create_task_must_contain_description(client):
         "details": "Invalid data"
     }
     assert db.session.scalars(db.select(Task)).all() == []
+
+
+def test_create_task_with_extra_fields(client):
+    response = client.post("/tasks", json={
+        "title": "Extra Field Test",
+        "description": "Should ignore extra field",
+        "qqq": "www"
+    })
+    response_body = response.get_json()
+
+    assert response.status_code == 201
+    assert "task" in response_body
+    assert "qqq" not in response_body["task"]
+
+
+def test_delete_all_tasks_with_data(client, three_tasks):
+    # Act
+    response = client.delete("/tasks/delete_all")
+    
+    # Assert
+    assert response.status_code == 204
+    
+    tasks = db.session.scalars(db.select(Task)).all()
+    assert len(tasks) == 0
+
+
+def test_delete_all_tasks_no_data(client):
+    # Act
+    response = client.delete("/tasks/delete_all")
+    
+    # Assert
+    assert response.status_code == 204
+    
+    tasks = db.session.scalars(db.select(Task)).all()
+    assert len(tasks) == 0

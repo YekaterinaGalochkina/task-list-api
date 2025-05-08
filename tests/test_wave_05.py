@@ -149,3 +149,14 @@ def test_create_goal_missing_title(client):
     assert response_body == {
         "details": "Invalid data"
     }
+
+
+def test_delete_all_goals_no_data(client):
+    # Act
+    response = client.delete("/goals/delete_all")
+    
+    # Assert
+    assert response.status_code == 204
+    
+    goals = db.session.scalars(db.select(Goal)).all()
+    assert len(goals) == 0

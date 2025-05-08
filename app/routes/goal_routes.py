@@ -50,3 +50,11 @@ def delete_goal(goal_id):
     db.session.commit()
 
     return Response(status=204, mimetype="application/json")
+
+
+@bp.delete("/delete_all")
+def delete_all_goals():
+    Goal.query.delete()
+    db.session.commit()
+
+    return Response(status=204, mimetype="application/json")

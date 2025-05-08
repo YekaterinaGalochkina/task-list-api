@@ -1,4 +1,4 @@
-from flask import Blueprint, request, Response, jsonify
+from flask import Blueprint, request, Response
 from app.models.task import Task
 from .route_helper_methods import validate_model, create_model_instance_from_dict
 from ..db import db
@@ -32,13 +32,12 @@ def get_all_tasks():
     
     return response
 
+
 @bp.get("/<task_id>")
-def get_one_task(task_id):
+def get_task_by_id(task_id):
     task = validate_model(Task, task_id)
+    return {"task": task.to_dict()}
 
-    response_body = {"task": task.to_dict()}
-
-    return jsonify(response_body), 200
 
 @bp.put("/<task_id>")
 def update_task(task_id):

@@ -153,7 +153,7 @@ def test_create_goal_missing_title(client):
 
 def test_delete_all_goals_no_data(client):
     # Act
-    response = client.delete("/goals/delete_all")
+    response = client.delete("/goals")
     
     # Assert
     assert response.status_code == 204

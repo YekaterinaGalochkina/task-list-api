@@ -32,9 +32,8 @@ def get_all_tasks():
     
     return response
 
-
 @bp.get("/<task_id>")
-def get_task_by_id(task_id):
+def get_task(task_id):
     task = validate_model(Task, task_id)
     return {"task": task.to_dict()}
 
@@ -89,7 +88,7 @@ def mark_incomplete(task_id):
     return Response(status=204, mimetype="application/json")
 
 
-@bp.delete("/delete_all")
+@bp.delete("")
 def delete_all_tasks():
     Task.query.delete()
     db.session.commit()

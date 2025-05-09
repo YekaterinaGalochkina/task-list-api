@@ -116,3 +116,20 @@ def test_get_task_includes_goal_id(client, one_task_belongs_to_one_goal):
             "is_complete": False
         }
     }
+
+def test_post_empty_task_ids_to_goal(client, one_goal, three_tasks):
+    # Act
+    response = client.post("/goals/1/tasks", json={
+        "task_ids": []
+    })
+    response_body = response.get_json()
+
+    # Assert
+    assert response.status_code == 200
+    assert response_body == {
+        "id": 1,
+        "task_ids": []
+    }
+
+    query = db.select(Goal).where(Goal.id == 1)
+    assert len(db.session.scalar(query).tasks) == 0

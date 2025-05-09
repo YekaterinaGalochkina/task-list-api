@@ -201,7 +201,7 @@ def test_create_task_with_extra_fields(client):
 
 def test_delete_all_tasks_with_data(client, three_tasks):
     # Act
-    response = client.delete("/tasks/delete_all")
+    response = client.delete("/tasks")
     
     # Assert
     assert response.status_code == 204
@@ -212,7 +212,7 @@ def test_delete_all_tasks_with_data(client, three_tasks):
 
 def test_delete_all_tasks_no_data(client):
     # Act
-    response = client.delete("/tasks/delete_all")
+    response = client.delete("/tasks")
     
     # Assert
     assert response.status_code == 204

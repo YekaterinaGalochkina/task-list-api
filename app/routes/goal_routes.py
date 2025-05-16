@@ -81,11 +81,7 @@ def add_tasks_to_goal_with_id(goal_id):
 def get_tasks_for_goal(goal_id):
     goal = validate_model(Goal, goal_id)
 
-    tasks_response = []
-    for task in goal.tasks:
-        task_dict = task.to_dict()
-        task_dict["goal_id"] = goal.id 
-        tasks_response.append(task_dict)
+    tasks_response = [task.to_dict() for task in goal.tasks]
 
     return {
         "id": goal.id,

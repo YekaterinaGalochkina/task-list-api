@@ -27,8 +27,7 @@ def get_all_tasks():
 
     response = []
 
-    for task in tasks:
-        response.append(task.to_dict())
+    response = [task.to_dict() for task in tasks]
     
     return response
 

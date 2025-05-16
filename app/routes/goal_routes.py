@@ -18,8 +18,7 @@ def get_all_goals():
     goals = db.session.scalars(query.order_by(Goal.id))
     goals_response = []
 
-    for goal in goals:
-        goals_response.append(goal.to_dict())
+    goals_response = [goal.to_dict() for goal in goals]
 
     return goals_response
 

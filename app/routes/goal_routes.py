@@ -2,6 +2,7 @@ from flask import Blueprint, request, Response
 from app.models.goal import Goal
 from app.models.task import Task
 from .route_helper_methods import validate_model, create_model_response
+from sqlalchemy import delete
 from ..db import db
 
 bp = Blueprint("goals_bp", __name__, url_prefix = "/goals")
@@ -51,7 +52,8 @@ def delete_goal(goal_id):
 
 @bp.delete("")
 def delete_all_goals():
-    Goal.query.delete()
+    delete_all_goals = delete(Goal)
+    db.session.execute(delete_all_goals)
     db.session.commit()
 
     return Response(status=204, mimetype="application/json")

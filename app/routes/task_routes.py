@@ -4,6 +4,7 @@ from .route_helper_methods import validate_model, create_model_response
 from ..db import db
 from datetime import datetime
 import requests
+from sqlalchemy import delete
 import os
 
 bp = Blueprint("tasks_bp", __name__, url_prefix = "/tasks")
@@ -92,7 +93,8 @@ def mark_incomplete(task_id):
 
 @bp.delete("")
 def delete_all_tasks():
-    Task.query.delete()
+    delete_all_tasks = delete(Task)
+    db.session.execute(delete_all_tasks)
     db.session.commit()
 
     return Response(status=204, mimetype="application/json")

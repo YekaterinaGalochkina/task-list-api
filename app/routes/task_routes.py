@@ -14,6 +14,7 @@ def create_task():
 
     return create_model_instance_from_dict(Task, request_body)
 
+
 @bp.get("")
 def get_all_tasks():
     sort_order = request.args.get("sort")
@@ -30,6 +31,7 @@ def get_all_tasks():
     response = [task.to_dict() for task in tasks]
     
     return response
+
 
 @bp.get("/<task_id>")
 def get_task(task_id):
@@ -48,6 +50,7 @@ def update_task(task_id):
 
     return Response(status=204, mimetype="application/json")
 
+
 @bp.delete("/<task_id>")
 def delete_task(task_id):
     task = validate_model(Task, task_id)
@@ -55,6 +58,7 @@ def delete_task(task_id):
     db.session.commit()
 
     return Response(status=204, mimetype="application/json")
+
 
 @bp.patch("/<task_id>/mark_complete")
 def mark_complete(task_id):
@@ -77,6 +81,7 @@ def mark_complete(task_id):
         )
 
     return Response(status=204, mimetype="application/json")
+
 
 @bp.patch("/<task_id>/mark_incomplete")
 def mark_incomplete(task_id):

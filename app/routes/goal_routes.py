@@ -12,6 +12,7 @@ def create_goal():
 
     return create_model_instance_from_dict(Goal, request_body)
 
+
 @bp.get("")
 def get_all_goals():
     query = db.select(Goal)
@@ -21,6 +22,7 @@ def get_all_goals():
     goals_response = [goal.to_dict() for goal in goals]
 
     return goals_response
+
 
 @bp.get("/<goal_id>")
 def get_one_goal(goal_id):
@@ -38,6 +40,7 @@ def update_goal(goal_id):
     db.session.commit()
 
     return Response(status=204, mimetype="application/json")
+
 
 @bp.delete("/<goal_id>")
 def delete_goal(goal_id):
@@ -75,6 +78,7 @@ def add_tasks_to_goal_with_id(goal_id):
         "id": goal.id,
         "task_ids": task_ids
     }
+
 
 @bp.get("/<goal_id>/tasks")
 def get_tasks_for_goal(goal_id):

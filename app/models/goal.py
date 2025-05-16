@@ -19,3 +19,7 @@ class Goal(db.Model):
         return cls(
             title = goal_data["title"]
         ) 
+    
+    def update(self, data):
+        if "title" in data:
+            self.title = data["title"]

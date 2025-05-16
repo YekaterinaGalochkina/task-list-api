@@ -17,7 +17,6 @@ def create_goal():
 def get_all_goals():
     query = db.select(Goal)
     goals = db.session.scalars(query.order_by(Goal.id))
-    goals_response = []
 
     goals_response = [goal.to_dict() for goal in goals]
 
@@ -36,7 +35,7 @@ def update_goal(goal_id):
     goal = validate_model(Goal, goal_id)
     request_body = request.get_json()
 
-    goal.title = request_body["title"]
+    goal.update(request_body)
     db.session.commit()
 
     return Response(status=204, mimetype="application/json")

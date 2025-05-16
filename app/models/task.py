@@ -32,3 +32,7 @@ class Task(db.Model):
             title = task_data["title"],
             description = task_data["description"]
         ) 
+    
+    def update(self, data):
+        if "title" in data:
+            self.title = data["title"]

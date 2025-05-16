@@ -26,8 +26,6 @@ def get_all_tasks():
     else:
         tasks = Task.query.all()
 
-    response = []
-
     response = [task.to_dict() for task in tasks]
     
     return response
@@ -44,7 +42,7 @@ def update_task(task_id):
     task = validate_model(Task, task_id)
     request_body = request.get_json()
 
-    task.title = request_body["title"]
+    task.update(request_body)
     task.description = request_body["description"]
     db.session.commit()
 

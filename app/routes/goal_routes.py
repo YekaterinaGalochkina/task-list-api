@@ -64,8 +64,7 @@ def add_tasks_to_goal_with_id(goal_id):
     request_body = request.get_json()
     task_ids = request_body.get("task_ids", [])
 
-    for task in goal.tasks:
-        task.goal_id = None
+    goal.tasks = []
 
     for task_id in task_ids:
         task = validate_model(Task, task_id) 

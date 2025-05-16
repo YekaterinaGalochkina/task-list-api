@@ -1,5 +1,7 @@
 from flask import abort, make_response
 from ..db import db
+import os
+import requests
 
 def validate_model(cls, model_id):
     try:
@@ -35,3 +37,21 @@ def create_model_response(cls, data):
     new_instance = create_model_instance(cls, data)
     key = cls.__name__.lower()
     return {key: new_instance.to_dict()}, 201
+
+
+def send_slack_msg(message, channel="test-slack-api"):
+    slack_token = os.environ.get("SLACK_BOT_TOKEN")
+    if not slack_token:
+        return
+
+    requests.post(
+        "https://slack.com/api/chat.postMessage",
+        headers={
+            "Authorization": f"Bearer {slack_token}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "channel": channel,
+            "text": message
+        }
+    )

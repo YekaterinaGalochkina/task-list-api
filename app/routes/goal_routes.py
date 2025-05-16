@@ -1,7 +1,7 @@
 from flask import Blueprint, request, Response
 from app.models.goal import Goal
 from app.models.task import Task
-from .route_helper_methods import create_model_instance_from_dict, validate_model
+from .route_helper_methods import validate_model, create_model_response
 from ..db import db
 
 bp = Blueprint("goals_bp", __name__, url_prefix = "/goals")
@@ -10,8 +10,7 @@ bp = Blueprint("goals_bp", __name__, url_prefix = "/goals")
 def create_goal():
     request_body = request.get_json()
 
-    return create_model_instance_from_dict(Goal, request_body)
-
+    return create_model_response(Goal, request_body)
 
 @bp.get("")
 def get_all_goals():

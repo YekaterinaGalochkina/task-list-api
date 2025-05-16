@@ -1,6 +1,6 @@
 from flask import Blueprint, request, Response
 from app.models.task import Task
-from .route_helper_methods import validate_model, create_model_instance_from_dict
+from .route_helper_methods import validate_model, create_model_response    
 from ..db import db
 from datetime import datetime
 import requests
@@ -12,7 +12,7 @@ bp = Blueprint("tasks_bp", __name__, url_prefix = "/tasks")
 def create_task():
     request_body = request.get_json()
 
-    return create_model_instance_from_dict(Task, request_body)
+    return create_model_response(Task, request_body)
 
 
 @bp.get("")

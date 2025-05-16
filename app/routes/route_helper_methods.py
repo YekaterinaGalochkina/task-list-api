@@ -17,10 +17,10 @@ def validate_model(cls, model_id):
 
     return model
 
-def create_model_instance_from_dict(cls, data):
+
+def create_model_instance(cls, data):
     try:
         new_instance = cls.from_dict(data)
-
     except KeyError:
         response = {"details": "Invalid data"}
         abort(make_response(response, 400))
@@ -28,6 +28,10 @@ def create_model_instance_from_dict(cls, data):
     db.session.add(new_instance)
     db.session.commit()
 
-    key = cls.__name__.lower()
+    return new_instance
 
+
+def create_model_response(cls, data):
+    new_instance = create_model_instance(cls, data)
+    key = cls.__name__.lower()
     return {key: new_instance.to_dict()}, 201

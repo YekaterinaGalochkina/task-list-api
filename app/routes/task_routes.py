@@ -4,7 +4,7 @@ from .route_helper_methods import validate_model, create_model_response
 from ..db import db
 from datetime import datetime
 import requests
-from sqlalchemy import delete
+from sqlalchemy import delete, select
 import os
 
 bp = Blueprint("tasks_bp", __name__, url_prefix = "/tasks")
@@ -19,14 +19,16 @@ def create_task():
 @bp.get("")
 def get_all_tasks():
     sort_order = request.args.get("sort")
+    query = select(Task)
 
     if sort_order == "asc":
-        tasks = Task.query.order_by(Task.title.asc()).all()
+        query = query.order_by(Task.title.asc())
     elif sort_order == "desc":
-        tasks = Task.query.order_by(Task.title.desc()).all()
+        query = query.order_by(Task.title.desc())
     else:
-        tasks = Task.query.all()
+        query = query.order_by(Task.id)
 
+    tasks = db.session.scalars(query)
     response = [task.to_dict() for task in tasks]
     
     return response

@@ -4,10 +4,13 @@ from .models import task, goal
 from .routes.task_routes import bp as tasks_bp
 from .routes.goal_routes import bp as goals_bp
 import os
+from flask_cors import CORS
 
 def create_app(config=None):
     app = Flask(__name__)
+    CORS(app)
 
+    app.config['CORS_HEADERS'] = 'Content-Type'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 
